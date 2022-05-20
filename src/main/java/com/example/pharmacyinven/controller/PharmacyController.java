@@ -26,5 +26,5 @@ public class PharmacyController {
     public List<PharmacyVO> getPharmacy(){
         return mapper.getPharmacyList();
     }
-    
+
 }

@@ -16,4 +16,10 @@ public interface PharmacyMapper {
     @Select("SELECT * FROM pharmacy")
     List<PharmacyVO> getPharmacyList();
 
+    @Select("SELECT pharmaId FROM pharmacy")
+    List<Integer> getPharmaId();
+
+    @Select("SELECT name FROM pharmacy")
+    List<String> getPharmaName();
+
 }
