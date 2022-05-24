@@ -11,8 +11,7 @@ public class PharmacyVO {
         this.pharmaId = pharmaId;
         this.name = name;
         this.address = address;
-        this.phone = phone;
-    }
+        this.phone = phone;    }
 
     public int getPharmaId() {
         return pharmaId;
@@ -46,4 +45,13 @@ public class PharmacyVO {
         this.phone = phone;
     }
 
+    @Override
+    public String toString() {
+        return "PharmacyVO{" +
+                "pharmaId=" + pharmaId +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", phone='" + phone + '\'' +
+                '}';
+    }
 }
