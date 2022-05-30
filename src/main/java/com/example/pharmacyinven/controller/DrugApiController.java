@@ -22,6 +22,7 @@ public class DrugApiController {
 
             String urlStr = "http://apis.data.go.kr/1471000/DrbEasyDrugInfoService/getDrbEasyDrugList?" +
                     "serviceKey=2HJESKpi%2FL%2FtcSWQmYe%2BA3cPvCNnqtavIl7NqpL7ESJful2B628ylQY8AuVMbDJvzkfmTaJZ2ZC3F38fYdSgqQ%3D%3D" +
+                    "&numOfRows=50" +
                     "&type=json";
 
             URL url = new URL(urlStr);
@@ -51,19 +52,15 @@ public class DrugApiController {
             JSONParser jsonParser = new JSONParser();
 
             JSONObject jsonObject = (JSONObject) jsonParser.parse(jsonInfo);
+            JSONObject jsonBody = (JSONObject) jsonObject.get("body");
 
-            System.out.println(jsonObject);
+            JSONArray infoArray = (JSONArray) jsonBody.get("items");
 
-            JSONArray infoArray = (JSONArray) jsonObject.get("body");
-
-            jsonObject = (JSONObject) infoArray.get(3);
-
-            infoArray = (JSONArray) jsonObject.get("items");
 
             System.out.println("* items *");
 
             for (int i = 0; i < infoArray.size(); i++) {
-                System.out.println("item_" + i + "========================");
+                System.out.println("item_" + (i + 1) + "========================");
 
                 JSONObject itemObject = (JSONObject) infoArray.get(i);
 
@@ -76,7 +73,6 @@ public class DrugApiController {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
 
         return result.toString();
 
