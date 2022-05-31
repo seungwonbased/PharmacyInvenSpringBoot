@@ -20,55 +20,58 @@ public class DrugApiController {
     public String callApi() throws IOException {
         StringBuilder result = new StringBuilder();
 
-            String urlStr = "http://apis.data.go.kr/1471000/DrbEasyDrugInfoService/getDrbEasyDrugList?" +
-                    "serviceKey=2HJESKpi%2FL%2FtcSWQmYe%2BA3cPvCNnqtavIl7NqpL7ESJful2B628ylQY8AuVMbDJvzkfmTaJZ2ZC3F38fYdSgqQ%3D%3D" +
-                    "&numOfRows=50" +
-                    "&type=json";
+        String urlStr = "http://apis.data.go.kr/1471000/DrbEasyDrugInfoService/getDrbEasyDrugList?" +
+                "serviceKey=2HJESKpi%2FL%2FtcSWQmYe%2BA3cPvCNnqtavIl7NqpL7ESJful2B628ylQY8AuVMbDJvzkfmTaJZ2ZC3F38fYdSgqQ%3D%3D" +
+                "&numOfRows=50" +
+                "&type=json";
 
-            URL url = new URL(urlStr);
+        URL url = new URL(urlStr);
 
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setRequestProperty("Content-type", "application/json");
-            urlConnection.setRequestProperty("Accept", "application/json");
+        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+        urlConnection.setRequestMethod("GET");
+        urlConnection.setRequestProperty("Content-type", "application/json");
+        urlConnection.setRequestProperty("Accept", "application/json");
 
-            BufferedReader br;
+        BufferedReader br;
 
-            br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
+        br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
 
-            String returnLine;
+        String returnLine;
 
-            while((returnLine = br.readLine()) != null) {
-                result.append(returnLine).append("\n\r");
-            }
+        while((returnLine = br.readLine()) != null) {
+            result.append(returnLine).append("\n\r");
+        }
 
-            urlConnection.disconnect();
+        urlConnection.disconnect();
 
         String jsonInfo = result.toString();
 
-        System.out.println(jsonInfo);
-
         try {
             JSONParser jsonParser = new JSONParser();
-
             JSONObject jsonObject = (JSONObject) jsonParser.parse(jsonInfo);
+
+            // json 파일이 header와 body로 이뤄져있음 -> json 안에 json
+            // body 부분의 items를 추출해야 하므로 body 먼저 가져옴
             JSONObject jsonBody = (JSONObject) jsonObject.get("body");
 
+            // body 안의 items는 Json array 형태이므로 JSONArray 안에 get 해줌
             JSONArray infoArray = (JSONArray) jsonBody.get("items");
 
 
             System.out.println("* items *");
 
             for (int i = 0; i < infoArray.size(); i++) {
-                System.out.println("item_" + (i + 1) + "========================");
+                System.out.println("item_" + (i + 1) + " =====================================");
 
                 JSONObject itemObject = (JSONObject) infoArray.get(i);
 
-                System.out.println("drugId ===> " + itemObject.get("itemSeq"));
-                System.out.println("drugName ===> " + itemObject.get("itemName"));
-                System.out.println("ingredient ===> " + itemObject.get("intrcQesitm"));
-                System.out.println("dosage ===> " + itemObject.get("useMethodQesitm"));
-                System.out.println("company ===> " + itemObject.get("entpName"));
+                // 데이터의 쓸모 없는 문자를 제거하기 위함
+                String trim = "[<\\/p><p><sup><\\/sup>\\n]";
+
+                System.out.println("drugId ===> " + itemObject.get("itemSeq").toString().replaceAll(trim, ""));
+                System.out.println("drugName ===> " + itemObject.get("itemName").toString().replaceAll(trim, ""));
+                System.out.println("dosage ===> " + itemObject.get("useMethodQesitm").toString().replaceAll(trim, ""));
+                System.out.println("company ===> " + itemObject.get("entpName").toString().replaceAll(trim, ""));
             }
         } catch (ParseException e) {
             e.printStackTrace();

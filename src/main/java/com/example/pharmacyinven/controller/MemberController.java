@@ -33,7 +33,7 @@ public class MemberController {
             throw new UsernameNotFoundException("User not found with id: " + id);
         }
 
-        // 추후 구현 -> 홈화면 또눈 더움 화면으로
+        // 추후 구현 -> 홈화면 또는 다음 화면으로
     }
 
 }
