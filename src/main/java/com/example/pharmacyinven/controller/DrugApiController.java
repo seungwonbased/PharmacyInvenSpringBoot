@@ -1,10 +1,14 @@
 package com.example.pharmacyinven.controller;
 
+import com.example.pharmacyinven.mapper.DrugMapper;
+import com.example.pharmacyinven.model.DrugVO;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.BufferedReader;
@@ -12,9 +16,22 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 
 @RestController
 public class DrugApiController {
+
+    @Autowired
+    DrugMapper mapper;
+
+    public DrugApiController(DrugMapper mapper) {
+        this.mapper = mapper;
+    }
+
+    @GetMapping("/drug/{pharmaId}")
+    public List<DrugVO> getDrugByPharmacy(@PathVariable("pharmaId") String pharmaId) {
+        return mapper.getDrugByPharmacy(pharmaId);
+    }
 
     @GetMapping("/api")
     public String callApi() throws IOException {

@@ -7,11 +7,16 @@ public class PharmacyVO {
     private String address;
     private String phone;
 
+    public PharmacyVO () {
+
+    }
+
     public PharmacyVO(int pharmaId, String name, String address, String phone) {
         this.pharmaId = pharmaId;
         this.name = name;
         this.address = address;
-        this.phone = phone;    }
+        this.phone = phone;
+    }
 
     public int getPharmaId() {
         return pharmaId;

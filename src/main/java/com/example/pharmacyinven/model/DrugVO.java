@@ -8,6 +8,10 @@ public class DrugVO {
     private String company;
     private PharmacyVO pharmacyVO;
 
+    public DrugVO () {
+
+    }
+
     public DrugVO(String drugId, String drugName, String ingredient, String dosage, String company, PharmacyVO pharmacyVO) {
         this.drugId = drugId;
         this.drugName = drugName;

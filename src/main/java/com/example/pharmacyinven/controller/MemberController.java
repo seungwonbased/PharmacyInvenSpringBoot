@@ -3,11 +3,13 @@ package com.example.pharmacyinven.controller;
 import com.example.pharmacyinven.exception.UsernameNotFoundException;
 import com.example.pharmacyinven.mapper.MemberMapper;
 import com.example.pharmacyinven.model.MemberVO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class MemberController {
 
+    @Autowired
     private MemberMapper mapper;
     private MemberVO vo;
 

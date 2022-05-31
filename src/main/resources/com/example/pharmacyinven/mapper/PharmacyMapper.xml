@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Sql Mapper -->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.pharmacyinven.mapper.PharmacyMapper">
+    <select id="getPharmacy" parameterType = "String" resultType="PharmacyVO">
+        SELECT * FROM pharmacy WHERE pharmaId=#{pharmaId}
+    </select>
+    <select id="getPharmacyList" resultType="PharmacyVO">
+        SELECT * FROM pharmacy
+    </select>
+</mapper>

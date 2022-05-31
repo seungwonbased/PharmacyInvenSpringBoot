@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Sql Mapper -->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.pharmacyinven.mapper.DrugMapper">
+    <resultMap type="DrugVO" id="DrugRM">
+        <id property="pharmacyVO.pharmaId" column="pharmaId"/>
+        <result property="pharmacyVO.name" column="name"/>
+        <result property="pharmacyVO.address" column="address"/>
+        <result property="pharmacyVO.phone" column="phone"/>
+    </resultMap>
+    <select id="getDrugByPharmacy" resultMap="DrugRM">
+        SELECT d.drugId, d.drugName, d.ingredient, d.dosage, d.company, p.pharmaId, p.name, p.address, p.phone
+        FROM drug d, pharmacy p
+        WHERE d.pharmaId=p.pharmaId AND d.pharmaId=#{pharmaId}
+    </select>
+</mapper>

@@ -9,13 +9,13 @@ import org.apache.ibatis.annotations.Select;
 @Mapper
 public interface MemberMapper {
 
-    @Insert("INSERT INTO users VALUES (#{id}, #{pw}, #{name}, #{phone})")
+    //  @Insert("INSERT INTO users VALUES (#{id}, #{pw}, #{name}, #{phone})")
     int register(@Param("id") String id,
                  @Param("pw") String pw,
                  @Param("name") String name,
                  @Param("phone") String phone);
 
-    @Select("SELECT * FROM users WHERE id=#{id} AND pw=#{pw}")
+    //  @Select("SELECT * FROM users WHERE id=#{id} AND pw=#{pw}")
     MemberVO login(@Param("id") String id,
                    @Param("pw") String pw);
 

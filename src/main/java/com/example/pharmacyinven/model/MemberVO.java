@@ -7,6 +7,10 @@ public class MemberVO {
     private String name;
     private String phone;
 
+    public MemberVO () {
+
+    }
+
     public MemberVO(String id, String pw, String name, String phone) {
         this.id = id;
         this.pw = pw;
