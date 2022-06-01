@@ -16,26 +16,26 @@ import com.example.pharmacyinven.model.CartVO;
 @RestController
 public class CartController {
     @Autowired
-    private CartMapper cartmapper;
+    private CartMapper mapper;
 
-    public CartController(CartMapper cartmapper) {
-        this.cartmapper = cartmapper;
+    public CartController(CartMapper mapper) {
+        this.mapper = mapper;
     }
 
     @PutMapping("/cart/insert")
     public void insertItem(@RequestParam("cartId") String cartId,
                            @RequestParam("id") String id,
                            @RequestParam("drugId") String drugId) {
-        cartmapper.insertItem(cartId, id, drugId);
+        mapper.insertItem(cartId, id, drugId);
     }
 
     @DeleteMapping("/cart/delete/{cartId}")
     public void deleteItem(@PathVariable("cartId") String cartId) {
-        cartmapper.deleteItem(cartId);
+        mapper.deleteItem(cartId);
     }
 
     @GetMapping("/cart/{id}")
     public List<CartVO> getItemList(@PathVariable("id") String id) {
-        return cartmapper.getItemList(id);
+        return mapper.getItemList(id);
     }
 }

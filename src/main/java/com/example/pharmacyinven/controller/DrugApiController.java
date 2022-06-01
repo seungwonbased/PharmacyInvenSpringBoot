@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -39,7 +38,7 @@ public class DrugApiController {
 
         String urlStr = "http://apis.data.go.kr/1471000/DrbEasyDrugInfoService/getDrbEasyDrugList?" +
                 "serviceKey=2HJESKpi%2FL%2FtcSWQmYe%2BA3cPvCNnqtavIl7NqpL7ESJful2B628ylQY8AuVMbDJvzkfmTaJZ2ZC3F38fYdSgqQ%3D%3D" +
-                "&numOfRows=50" +
+                "&numOfRows=1" +
                 "&type=json";
 
         URL url = new URL(urlStr);
@@ -85,10 +84,18 @@ public class DrugApiController {
                 // 데이터의 쓸모 없는 문자를 제거하기 위함
                 String trim = "[<\\/p><p><sup><\\/sup>\\n]";
 
+                String drugId = itemObject.get("itemSeq").toString().replaceAll(trim, "");
+                String drugName = itemObject.get("itemName").toString().replaceAll(trim, "");
+                String dosage = itemObject.get("useMethodQesitm").toString().replaceAll(trim, "");
+                String company = itemObject.get("entpName").toString().replaceAll(trim, "");
+
+                mapper.insertDrugTest(drugId, drugName, dosage, company);
+
                 System.out.println("drugId ===> " + itemObject.get("itemSeq").toString().replaceAll(trim, ""));
                 System.out.println("drugName ===> " + itemObject.get("itemName").toString().replaceAll(trim, ""));
                 System.out.println("dosage ===> " + itemObject.get("useMethodQesitm").toString().replaceAll(trim, ""));
                 System.out.println("company ===> " + itemObject.get("entpName").toString().replaceAll(trim, ""));
+
             }
         } catch (ParseException e) {
             e.printStackTrace();
