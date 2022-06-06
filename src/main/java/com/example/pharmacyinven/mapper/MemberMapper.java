@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Select;
 public interface MemberMapper {
 
     //  @Insert("INSERT INTO users VALUES (#{id}, #{pw}, #{name}, #{phone})")
-    int register(@Param("id") String id,
+    int registerMember(@Param("id") String id,
                  @Param("pw") String pw,
                  @Param("name") String name,
                  @Param("phone") String phone);

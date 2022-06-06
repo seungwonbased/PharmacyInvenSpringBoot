@@ -22,7 +22,7 @@ public class MemberController {
                                @RequestParam("pw") String pw,
                                @RequestParam("name") String name,
                                @RequestParam("phone") String phone) {
-        mapper.register(id, pw, name, phone);
+        mapper.registerMember(id, pw, name, phone);
     }
 
     @GetMapping("/member/loginform")
