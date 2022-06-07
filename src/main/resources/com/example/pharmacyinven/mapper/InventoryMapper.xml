@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Sql Mapper -->
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.pharmacyinven.mapper.InventoryMapper">
+	<resultMap type="InventoryVO" id="InventoryRM">
+		<id property="drugVO.drugId" column="drugId"/>
+		<result property="drugVO.drugName" column="drugName"/>
+		<result property="drugVO.dosage" column="dosage"/>
+		<result property="drugVO.company" column="company"/>
+	</resultMap>
+	<select id="getInventoryByDrug" resultMap="InventoryRM">
+		SELECT i.invenId, i.quantity, d.drugId, d.drugName, d.dosage, d.company
+		FROM drug d, inventory i
+		WHERE i.drugId=d.drugId AND i.drugId=#{drugId}
+	</select>
+	<!-- 
+	<update id="addInventory">
+		UPDATE FROM inventory SET quantity=quantity+#{quantity} 
+		WHERE drugId=#{drugId}
+	</update>
+	<update id="minusInventory">
+		UPDATE FROM inventory SET quantity=quantity-#{quantity} 
+		WHERE drugId=#{drugId}
+	</update>
+	 -->
+</mapper>
