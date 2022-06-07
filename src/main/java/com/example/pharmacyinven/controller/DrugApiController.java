@@ -33,75 +33,76 @@ public class DrugApiController {
     }
 
     @GetMapping("/api")
-    public String callApi() throws IOException {
-        StringBuilder result = new StringBuilder();
+    public void callApi() throws IOException {
+    	for (int k = 1; k <= 50; k++) {
+	        StringBuilder result = new StringBuilder();
+	
+	        String urlStr = "http://apis.data.go.kr/1471000/DrbEasyDrugInfoService/getDrbEasyDrugList?" +
+	                "serviceKey=2HJESKpi%2FL%2FtcSWQmYe%2BA3cPvCNnqtavIl7NqpL7ESJful2B628ylQY8AuVMbDJvzkfmTaJZ2ZC3F38fYdSgqQ%3D%3D" +
+	                "&pageNo="+ k +
+	                "&type=json";
+	
+	        URL url = new URL(urlStr);
+	
+	        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+	        urlConnection.setRequestMethod("GET");
+	        urlConnection.setRequestProperty("Content-type", "application/json");
+	        urlConnection.setRequestProperty("Accept", "application/json");
+	
+	        BufferedReader br;
+	
+	        br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
+	
+	        String returnLine;
+	
+	        while((returnLine = br.readLine()) != null) {
+	            result.append(returnLine).append("\n\r");
+	        }
+	
+	        urlConnection.disconnect();
+	
+	        String jsonInfo = result.toString();
+	
+	        try {
+	            JSONParser jsonParser = new JSONParser();
+	            JSONObject jsonObject = (JSONObject) jsonParser.parse(jsonInfo);
+	
+	            // json 파일이 header와 body로 이뤄져있음 -> json 안에 json
+	            // body 부분의 items를 추출해야 하므로 body 먼저 가져옴
+	            JSONObject jsonBody = (JSONObject) jsonObject.get("body");
+	
+	            // body 안의 items는 Json array 형태이므로 JSONArray 안에 get 해줌
+	            JSONArray infoArray = (JSONArray) jsonBody.get("items");
+	
+	
+	            System.out.println("* items *");
+	
+	            for (int i = 0; i < infoArray.size(); i++) {
+	                System.out.println("item_" + (i + 1) + " =====================================");
+	
+	                JSONObject itemObject = (JSONObject) infoArray.get(i);
+	
+	                // 데이터의 쓸모 없는 문자를 제거하기 위함
+	                String trim = "[<\\/p><p><sup><\\/sup>\\n]";
+	
+	                String drugId = itemObject.get("itemSeq").toString().replaceAll(trim, "");
+	                String drugName = itemObject.get("itemName").toString().replaceAll(trim, "");
+	                String dosage = itemObject.get("useMethodQesitm").toString().replaceAll(trim, "");
+	                String company = itemObject.get("entpName").toString().replaceAll(trim, "");
+	
+	                mapper.insertDrugTest(String.valueOf(i + 1 + ((k - 1) * 10)), drugName, dosage, company);
+	
+	                System.out.println("drugId ===> " + itemObject.get("itemSeq").toString().replaceAll(trim, ""));
+	                System.out.println("drugName ===> " + itemObject.get("itemName").toString().replaceAll(trim, ""));
+	                System.out.println("dosage ===> " + itemObject.get("useMethodQesitm").toString().replaceAll(trim, ""));
+	                System.out.println("company ===> " + itemObject.get("entpName").toString().replaceAll(trim, ""));
+	
+	            }
+	        } catch (ParseException e) {
+	            e.printStackTrace();
+	        }
 
-        String urlStr = "http://apis.data.go.kr/1471000/DrbEasyDrugInfoService/getDrbEasyDrugList?" +
-                "serviceKey=2HJESKpi%2FL%2FtcSWQmYe%2BA3cPvCNnqtavIl7NqpL7ESJful2B628ylQY8AuVMbDJvzkfmTaJZ2ZC3F38fYdSgqQ%3D%3D" +
-                "&numOfRows=1" +
-                "&type=json";
-
-        URL url = new URL(urlStr);
-
-        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-        urlConnection.setRequestMethod("GET");
-        urlConnection.setRequestProperty("Content-type", "application/json");
-        urlConnection.setRequestProperty("Accept", "application/json");
-
-        BufferedReader br;
-
-        br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
-
-        String returnLine;
-
-        while((returnLine = br.readLine()) != null) {
-            result.append(returnLine).append("\n\r");
-        }
-
-        urlConnection.disconnect();
-
-        String jsonInfo = result.toString();
-
-        try {
-            JSONParser jsonParser = new JSONParser();
-            JSONObject jsonObject = (JSONObject) jsonParser.parse(jsonInfo);
-
-            // json 파일이 header와 body로 이뤄져있음 -> json 안에 json
-            // body 부분의 items를 추출해야 하므로 body 먼저 가져옴
-            JSONObject jsonBody = (JSONObject) jsonObject.get("body");
-
-            // body 안의 items는 Json array 형태이므로 JSONArray 안에 get 해줌
-            JSONArray infoArray = (JSONArray) jsonBody.get("items");
-
-
-            System.out.println("* items *");
-
-            for (int i = 0; i < infoArray.size(); i++) {
-                System.out.println("item_" + (i + 1) + " =====================================");
-
-                JSONObject itemObject = (JSONObject) infoArray.get(i);
-
-                // 데이터의 쓸모 없는 문자를 제거하기 위함
-                String trim = "[<\\/p><p><sup><\\/sup>\\n]";
-
-                String drugId = itemObject.get("itemSeq").toString().replaceAll(trim, "");
-                String drugName = itemObject.get("itemName").toString().replaceAll(trim, "");
-                String dosage = itemObject.get("useMethodQesitm").toString().replaceAll(trim, "");
-                String company = itemObject.get("entpName").toString().replaceAll(trim, "");
-
-                mapper.insertDrugTest(drugId, drugName, dosage, company);
-
-                System.out.println("drugId ===> " + itemObject.get("itemSeq").toString().replaceAll(trim, ""));
-                System.out.println("drugName ===> " + itemObject.get("itemName").toString().replaceAll(trim, ""));
-                System.out.println("dosage ===> " + itemObject.get("useMethodQesitm").toString().replaceAll(trim, ""));
-                System.out.println("company ===> " + itemObject.get("entpName").toString().replaceAll(trim, ""));
-
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        return result.toString();
+    	}
 
     }
 
