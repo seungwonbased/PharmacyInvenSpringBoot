@@ -2,6 +2,8 @@ package com.example.pharmacyinven.controller;
 
 import com.example.pharmacyinven.mapper.DrugMapper;
 import com.example.pharmacyinven.model.DrugVO;
+
+import org.apache.ibatis.annotations.Param;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -9,6 +11,8 @@ import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -34,6 +38,11 @@ public class DrugApiController {
     @GetMapping("/drug/search/{drugName}")
     public DrugVO searchDrug(@PathVariable("drugName") String drugName) {
     	return mapper.searchDrug(drugName);
+    }
+    @PutMapping("/drug/insert")
+    public void insertDrugInCart(@RequestParam("id") String id,
+            @RequestParam("drugId") String drugId) {
+    	mapper.insertDrugInCart(id, drugId);
     }
 
     @GetMapping("/api")
