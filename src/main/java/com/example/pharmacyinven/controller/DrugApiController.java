@@ -31,6 +31,10 @@ public class DrugApiController {
     public List<DrugVO> getDrugByPharmacy(@PathVariable("pharmaId") String pharmaId) {
         return mapper.getDrugByPharmacy(pharmaId);
     }
+    @GetMapping("/drug/search/{drugName}")
+    public DrugVO searchDrug(@PathVariable("drugName") String drugName) {
+    	return mapper.searchDrug(drugName);
+    }
 
     @GetMapping("/api")
     public void callApi() throws IOException {

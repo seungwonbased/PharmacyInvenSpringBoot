@@ -13,9 +13,17 @@
     <select id="getDrugByPharmacy" resultMap="DrugRM">
         SELECT d.drugId, d.drugName, d.dosage, d.company, p.pharmaId, p.name, p.address, p.phone
         FROM drug d, pharmacy p
-        WHERE d.pharmaId=p.pharmaId AND d.pharmaId=#{pharmaId} -->
+        WHERE d.pharmaId=p.pharmaId AND d.pharmaId=#{pharmaId}
     </select>
     <insert id="insertDrugTest">
-        INSERT INTO drugTest VALUES (#{drugId}, #{drugName}, #{dosage}, #{company})
+        INSERT INTO drug VALUES (#{drugId}, #{drugName}, #{dosage}, #{company},1)
+    </insert>
+    <select id="searchDrug" resultMap="DrugRM">
+    	SELECT d.drugId, d.drugName, d.dosage, d.company, p.pharmaId, p.name, p.address, p.phone
+        FROM drug d, pharmacy p
+        WHERE d.pharmaId=p.pharmaId AND d.drugName=#{drugName}
+    </select>
+    <insert id="insertDrugInCart">
+        INSERT INTO cart(id,drugId) VALUES (#{id}, #{drugId})
     </insert>
 </mapper>

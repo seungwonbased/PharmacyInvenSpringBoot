@@ -24,4 +24,9 @@ public interface DrugMapper {
                    @Param("drugName") String drugName,
                    @Param("dosage") String dosage,
                    @Param("company") String company);
+    
+    DrugVO searchDrug(@Param("drugName") String drugName);
+    
+    void insertDrugInCart(@Param("id") String id,
+                   @Param("drugId") String drugId);
 }
