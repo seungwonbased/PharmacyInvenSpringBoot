@@ -7,11 +7,12 @@
     <resultMap type="DrugVO" id="DrugRM">
         <id property="pharmacyVO.pharmaId" column="pharmaId"/>
         <result property="pharmacyVO.name" column="name"/>
-        <result property="pharmacyVO.address" column="address"/>
+        <result property="pharmacyVO.latitude" column="latitude"/>
+        <result property="pharmacyVO.longitude" column="longitude"/>
         <result property="pharmacyVO.phone" column="phone"/>
     </resultMap>
     <select id="getDrugByPharmacy" resultMap="DrugRM">
-        SELECT d.drugId, d.drugName, d.dosage, d.company, p.pharmaId, p.name, p.address, p.phone
+        SELECT d.drugId, d.drugName, d.dosage, d.company, p.pharmaId, p.name, p.latitude, p.longitude, p.phone
         FROM drug d, pharmacy p
         WHERE d.pharmaId=p.pharmaId AND d.pharmaId=#{pharmaId}
     </select>
@@ -19,7 +20,7 @@
         INSERT INTO drug VALUES (#{drugId}, #{drugName}, #{dosage}, #{company},1)
     </insert>
     <select id="searchDrug" resultMap="DrugRM">
-    	SELECT d.drugId, d.drugName, d.dosage, d.company, p.pharmaId, p.name, p.address, p.phone
+    	SELECT d.drugId, d.drugName, d.dosage, d.company, p.pharmaId, p.name, p.latitude, p.longitude, p.phone
         FROM drug d, pharmacy p
         WHERE d.pharmaId=p.pharmaId AND d.drugName=#{drugName}
     </select>

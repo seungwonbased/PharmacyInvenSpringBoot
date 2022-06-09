@@ -14,11 +14,16 @@ INSERT INTO pharmacy(name,address,phone) VALUES ('아주대약국', '우만동',
 INSERT INTO pharmacy(name,address,phone) VALUES ('우만동약국', '우만동', '0312198888')
 INSERT INTO inventory(quantity,drugId) VALUES ('우만동약국', '우만동', '0312198888')
 INSERT INTO cart(id,drugId) VALUES ('우만동약국', '우만동', '0312198888')
+alter table pharmacy drop address
+alter table pharmacy add latitude varchar(100) not null;
+alter table pharmacy add longitude varchar(100) not null;
+delete from pharmacy where pharmaId=2
 
 create table pharmacy(
    pharmaId int auto_increment primary key,
    name varchar(20) not null,
-   address varchar(100) not null,
+   latitude varchar(100) not null,
+   longitude varchar(100) not null,
    phone varchar(20) not null 
 )
 
