@@ -7,17 +7,21 @@
     <resultMap type="CartVO" id="CartRM">
         <id property="drugVO.drugId" column="drugId"/>
         <result property="drugVO.drugName" column="drugName"/>
-        <result property="drugVO.ingredient" column="ingredient"/>
         <result property="drugVO.dosage" column="dosage"/>
         <result property="drugVO.company" column="company"/>
+        <result property="drugVO.pharmacyVO.pharmaId" column="pharmacyVO.pharmaId"/>
+        <result property="drugVO.pharmacyVO.name" column="pharmacyVO.name"/>
+        <result property="drugVO.pharmacyVO.latitude" column="pharmacyVO.latitude"/>
+        <result property="drugVO.pharmacyVO.longitude" column="pharmacyVO.longitude"/>
+        <result property="drugVO.pharmacyVO.phone" column="pharmacyVO.phone"/>
     </resultMap>
     <select id="getItemList" resultMap="CartRM">
-        SELECT d.drugId, d.drugName, d.ingredient, d.dosage, d.company
+        SELECT d.drugId, d.drugName, d.dosage, d.company
         FROM drug d, users u, cart c
         WHERE c.drugId=d.drugId AND c.id=u.id AND c.id=#{id}
     </select>
     <insert id="insertItem">
-        INSERT INTO cart VALUES(#{cartId}, #{id}, #{drugId})
+        INSERT INTO cart(id, drugId) VALUES(#{id}, #{drugId})
     </insert>
     <delete id="deleteItem">
         DELETE FROM cart WHERE cartId=#{cartId}

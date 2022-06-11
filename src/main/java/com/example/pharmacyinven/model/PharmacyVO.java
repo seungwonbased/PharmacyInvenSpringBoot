@@ -68,5 +68,4 @@ public class PharmacyVO {
 				+ longitude + ", phone=" + phone + "]";
 	}
 
-
 }

@@ -26,11 +26,12 @@ public class MemberController {
     }
 
     @GetMapping("/member/loginform")
-    public void login(@RequestParam("id") String id,
+    public MemberVO login(@RequestParam("id") String id,
                       @RequestParam("pw") String pw) throws UsernameNotFoundException {
         vo = mapper.login(id, pw);
         if (!vo.equals(null)) {
             System.out.println(vo);
+            return vo;
         } else {
             throw new UsernameNotFoundException("User not found with id: " + id);
         }

@@ -23,11 +23,12 @@ public class CartController {
     }
 
     @PutMapping("/cart/insert")
-    public void insertItem(@RequestParam("cartId") String cartId,
-                           @RequestParam("id") String id,
+    public void insertItem(@RequestParam("id") String id,
                            @RequestParam("drugId") String drugId) {
-        mapper.insertItem(cartId, id, drugId);
+        mapper.insertItem(id, drugId);
     }
+
+    @GetMapping
 
     @DeleteMapping("/cart/delete/{cartId}")
     public void deleteItem(@PathVariable("cartId") String cartId) {
